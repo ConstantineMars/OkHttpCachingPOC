@@ -1,15 +1,11 @@
 package com.constantinemars.okhttpcachingpoc
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.constantinemars.okhttpcachingpoc.model.GetResponse
-import com.constantinemars.okhttpcachingpoc.model.PostResponse
-import com.constantinemars.okhttpcachingpoc.rx.Transformers
 import com.constantinemars.okhttpcachingpoc.rx.Transformers.Companion.applySchedulers
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.HttpException
 import timber.log.Timber
@@ -28,12 +24,6 @@ class MainActivity : AppCompatActivity() {
         getButton.setOnClickListener {
             Timber.d("calling \"get\"")
             callGetCached()
-//            compositeDisposable.add(cachedApiService.get()
-//                .compose(applySchedulers())
-//                .subscribe(
-//                    {response -> Timber.d(response.toString())},
-//                    {error -> Timber.e(error) }
-//                ))
         }
 
         postButton.setOnClickListener {
