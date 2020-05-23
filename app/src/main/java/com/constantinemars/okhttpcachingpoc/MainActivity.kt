@@ -2,6 +2,10 @@ package com.constantinemars.okhttpcachingpoc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.constantinemars.okhttpcachingpoc.model.GetResponse
+import com.constantinemars.okhttpcachingpoc.rx.Transformers
+import com.constantinemars.okhttpcachingpoc.rx.Transformers.Companion.applySchedulers
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -19,11 +23,20 @@ class MainActivity : AppCompatActivity() {
 
         val apiService = ApiClient.retrofit.create(ApiService::class.java)
 
-        button.setOnClickListener {
+        getButton.setOnClickListener {
             Timber.d("calling \"get\"")
             compositeDisposable.add(apiService.get()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(applySchedulers())
+                .subscribe(
+                    {response -> Timber.d(response.toString())},
+                    {error -> Timber.e(error)}
+                ))
+        }
+
+        postButton.setOnClickListener {
+            Timber.d("calling \"post\"")
+            compositeDisposable.add(apiService.post("long test data string")
+                .compose(applySchedulers())
                 .subscribe(
                     {response -> Timber.d(response.toString())},
                     {error -> Timber.e(error)}

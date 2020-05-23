@@ -8,9 +8,10 @@ class Headers(
     @SerializedName("cache-control") val cacheControl: String
 ) {
     override fun toString() = format(
-                    "[headers:\n" +
-                            "host:%s\n" +
-                    "cacheControl:%s\n" +
-                            "]"
-            , host, cacheControl)
+                    "[\n" +
+                            "host: %s\n" +
+                    "cacheControl: %s\n" +
+                            "]",
+        host,
+        cacheControl)
 }
